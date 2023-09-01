@@ -1,8 +1,10 @@
 package com.twahn.session.controller;
 
+import com.twahn.session.dto.EmployeeLoginRequestDto;
 import com.twahn.session.service.EmployeeService;
 import com.twahn.session.dto.EmployeeCreateRequestDto;
 import com.twahn.session.entity.Employee;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +38,13 @@ public class EmployeeController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         employeeService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(HttpSession session, @RequestBody EmployeeLoginRequestDto dto) {
+        employeeService.login(dto);
+        session.setAttribute("AUTH_KEY", employeeService.findOneByPhoneNumber(dto.phoneNumber()));
+        return ResponseEntity.ok("Authentication Success");
     }
 
 }

@@ -13,3 +13,8 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
     open-in-view: false
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
